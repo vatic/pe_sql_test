@@ -1,3 +1,5 @@
+-- PostgreSQL 14.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.1.0, 64-bit
+
 -- Контрагенты
 DROP TABLE IF EXISTS counterparties CASCADE;
 CREATE TABLE counterparties (
