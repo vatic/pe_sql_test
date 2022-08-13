@@ -9,12 +9,16 @@ INSERT INTO counterparties (name) VALUES
 TRUNCATE TABLE operation_types RESTART IDENTITY CASCADE;
 INSERT INTO operation_types (name) VALUES
 ('Sale'),
-('Rent');
+('Rent'),
+('Расходные документы'),
+('Приходные документы');
 
 TRUNCATE TABLE document_types RESTART IDENTITY CASCADE ;
 INSERT INTO document_types(operation_type_id, name) VALUES
 ((SELECT ot.id FROM operation_types AS ot WHERE ot.name = 'Sale'), 'Some_Sale'),
-((SELECT ot.id FROM operation_types AS ot WHERE ot.name = 'Rent'), 'Some_Rent');
+((SELECT ot.id FROM operation_types AS ot WHERE ot.name = 'Rent'), 'Some_Rent'),
+((SELECT ot.id FROM operation_types AS ot WHERE ot.name = 'Расходные документы'), 'Некий расходник'),
+((SELECT ot.id FROM operation_types AS ot WHERE ot.name = 'Приходные документы'), 'Некий приходник');
 
 TRUNCATE TABLE currencies RESTART IDENTITY CASCADE ;
 INSERT INTO currencies(code, name) VALUES
@@ -63,22 +67,12 @@ INSERT INTO documents(operation_type_id, document_type_id, document_number, sign
 	'DOC-222',
 	'2022-08-12',
 	(SELECT c.id FROM contracts c WHERE c.contract_number = 'CONTRACT-222')
-	);
-
-TRUNCATE TABLE documents RESTART IDENTITY CASCADE ;
-INSERT INTO documents(operation_type_id, document_type_id, document_number, sign_date, contract_id) VALUES
-	(
-	(SELECT dt.operation_type_id FROM document_types dt WHERE dt.name = 'Some_Sale'),
-	(SELECT dt.id FROM document_types dt WHERE dt.name = 'Some_Sale'),
-	'DOC-111',
-	'2022-07-20',
-	(SELECT c.id FROM contracts c WHERE c.contract_number = 'CONTRACT-111')
 	),
 	(
-	(SELECT dt.operation_type_id FROM document_types dt WHERE dt.name = 'Some_Rent'),
-	(SELECT dt.id FROM document_types dt WHERE dt.name = 'Some_Rent'),
-	'DOC-222',
-	'2022-08-12',
+	(SELECT dt.operation_type_id FROM document_types dt WHERE dt.name = 'Некий расходник'),
+	(SELECT dt.id FROM document_types dt WHERE dt.name = 'Некий расходник'),
+	'DOC-333',
+	'2022-08-10',
 	(SELECT c.id FROM contracts c WHERE c.contract_number = 'CONTRACT-222')
 	);
 
