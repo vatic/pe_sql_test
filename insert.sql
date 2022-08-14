@@ -30,6 +30,7 @@ TRUNCATE TABLE units RESTART IDENTITY CASCADE ;
 INSERT INTO units(code, name) VALUES
 ('kg', 'kilogramm'),
 ('m', 'meter'),
+('шт', 'штуки'),
 ('l', 'liter');
 
 TRUNCATE TABLE contracts RESTART IDENTITY CASCADE ;
@@ -87,6 +88,13 @@ INSERT INTO documents(operation_type_id, document_type_id, document_number, sign
 	(SELECT dt.id FROM document_types dt WHERE dt.name = 'Некий расходник'),
 	'DOC-555',
 	'2022-08-10',
+	(SELECT c.id FROM contracts c WHERE c.contract_number = 'CONTRACT-111')
+	),
+	(
+	(SELECT dt.operation_type_id FROM document_types dt WHERE dt.name = 'Некий расходник'),
+	(SELECT dt.id FROM document_types dt WHERE dt.name = 'Некий расходник'),
+	'1',
+	'2006-01-01',
 	(SELECT c.id FROM contracts c WHERE c.contract_number = 'CONTRACT-111')
 	);
 
