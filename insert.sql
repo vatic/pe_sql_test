@@ -81,6 +81,13 @@ INSERT INTO documents(operation_type_id, document_type_id, document_number, sign
 	'DOC-444',
 	'2022-08-10',
 	(SELECT c.id FROM contracts c WHERE c.contract_number = 'CONTRACT-111')
+	),
+	(
+	(SELECT dt.operation_type_id FROM document_types dt WHERE dt.name = 'Некий расходник2'),
+	(SELECT dt.id FROM document_types dt WHERE dt.name = 'Некий расходник'),
+	'DOC-555',
+	'2022-08-10',
+	(SELECT c.id FROM contracts c WHERE c.contract_number = 'CONTRACT-111')
 	);
 
 TRUNCATE TABLE items RESTART IDENTITY CASCADE ;
