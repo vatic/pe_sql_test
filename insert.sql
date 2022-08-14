@@ -74,6 +74,13 @@ INSERT INTO documents(operation_type_id, document_type_id, document_number, sign
 	'DOC-333',
 	'2022-08-10',
 	(SELECT c.id FROM contracts c WHERE c.contract_number = 'CONTRACT-222')
+	),
+	(
+	(SELECT dt.operation_type_id FROM document_types dt WHERE dt.name = 'Некий расходник2'),
+	(SELECT dt.id FROM document_types dt WHERE dt.name = 'Некий расходник'),
+	'DOC-444',
+	'2022-08-10',
+	(SELECT c.id FROM contracts c WHERE c.contract_number = 'CONTRACT-111')
 	);
 
 TRUNCATE TABLE items RESTART IDENTITY CASCADE ;
@@ -85,5 +92,22 @@ INSERT INTO items(document_id, name, quantity, unit_id, price, currency_id) VALU
 	(SELECT u.id FROM units u WHERE u.code= 'm'),
 	19000,
 	(SELECT cu.id FROM currencies cu WHERE cu.code= 'RUB')
-	);
+	),
+	(
+	(SELECT d.id FROM documents d WHERE d.document_number= 'DOC-333'),
+	'Цемент-111',
+	500,
+	(SELECT u.id FROM units u WHERE u.code= 'kg'),
+	9000,
+	(SELECT cu.id FROM currencies cu WHERE cu.code= 'RUB')
+	),
+	(
+	(SELECT d.id FROM documents d WHERE d.document_number= 'DOC-333'),
+	'Песок-111',
+	400,
+	(SELECT u.id FROM units u WHERE u.code= 'kg'),
+	8000,
+	(SELECT cu.id FROM currencies cu WHERE cu.code= 'RUB')
+	)
+	;
 
