@@ -1,14 +1,10 @@
-WITH count_t AS (
-SELECT
-d.sign_date data,
-count(d.id) data_count
-FROM documents d
-GROUP BY d.sign_date
-)
-SELECT 'Максимум документов: дата: ' || t1.data || ' , кол-во: ' || t1.data_count
-FROM count_t t1
-JOIN
-(SELECT MAX(count_t.data_count) maxc FROM count_t) t2
-ON 
-t1.data_count = t2.maxc;
+INSERT INTO items(document_id, name, quantity, unit_id, price, currency_id) VALUES
+	(
+	(SELECT d.id FROM documents d WHERE d.document_number= '1' AND d.sign_date='2006-01-01'),
+	'Болт',
+	10,
+	(SELECT u.id FROM units u WHERE u.code= 'шт'),
+	3,
+	(SELECT cu.id FROM currencies cu WHERE cu.code= 'RUB')
+	);
 
